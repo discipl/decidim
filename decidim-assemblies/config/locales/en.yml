@@ -31,6 +31,7 @@ en:
         title: Title
       assembly_member:
         birthday: Birthday
+        ceased_date: Ceased date
         designation_date: Designation date
         designation_mode: Designation mode
         full_name: Full name
@@ -138,6 +139,7 @@ en:
           name: Assembly
         assembly_member:
           fields:
+            ceased_date: Ceased date
             designation_date: Designation date
             full_name: Name
             position: Position
