@@ -196,8 +196,13 @@ en:
               not_ceased: Not ceased
             search: Search
           form:
+            select_user: Select an user
             select_a_gender: Select a gender
             select_a_position: Select a position
+          users:
+            close: Close
+            current_selection: Current selection
+            select: Select
       index:
         title: Assemblies
       pages:
