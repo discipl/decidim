@@ -6,7 +6,7 @@ module Decidim
       def allowed?
         # Stop checks if the user is not authorized to perform the
         # permission_action for this space
-        return false unless spaces_allows_user?
+        return false unless space_allows_user?
         return false unless user
 
         return Decidim::Surveys::Admin::Permissions.new(user, permission_action, context).allowed? if permission_action.scope == :admin

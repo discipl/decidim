@@ -19,7 +19,7 @@ module Decidim
 
     attr_reader :user, :permission_action, :context
 
-    def spaces_allows_user?
+    def space_allows_user?
       return unless space.manifest.permissions_class
       space.manifest.permissions_class.new(user, permission_action, context).allowed?
     end
