@@ -6,8 +6,8 @@ module Decidim::Assemblies
   describe Admin::UpdateAssemblyMember do
     subject { described_class.new(form, assembly_member) }
 
-    let(:assembly) { create(:assembly) }
-    let(:assembly_member) { create :assembly_member, assembly: assembly }
+    let!(:assembly) { create(:assembly) }
+    let(:assembly_member) { create :assembly_member, :with_user, assembly: assembly }
     let!(:current_user) { create :user, :confirmed, organization: assembly.organization }
     let(:user) { nil }
     let(:form) do
@@ -15,11 +15,11 @@ module Decidim::Assemblies
         Admin::AssemblyMemberForm,
         invalid?: invalid,
         current_user: current_user,
-        full_name: "Full name",
+        full_name: "New name",
         user: user,
         attributes: {
           weight: 0,
-          full_name: "Full name",
+          full_name: "New name",
           gender: Decidim::AssemblyMember::GENDERS.sample,
           origin: "origin",
           birthday: Faker::Date.birthday(20, 65),
@@ -43,22 +43,14 @@ module Decidim::Assemblies
     end
 
     context "when everything is ok" do
-      it "updates the assembly member" do
+      it "updates the assembly full name" do
         expect do
           subject.call
-        end.to change { assembly_member.reload && assembly_member.full_name }.to("Full name")
+        end.to change { assembly_member.reload && assembly_member.full_name }.from(assembly_member.full_name).to("New name")
       end
 
       it "broadcasts  ok" do
         expect { subject.call }.to broadcast(:ok)
-      end
-
-      it "sets the assembly" do
-        subject.call do
-          on(:ok) do |assembly_member|
-            expect(assembly_member.assembly).to eq assembly
-          end
-        end
       end
 
       it "traces the action", versioning: true do
@@ -76,11 +68,9 @@ module Decidim::Assemblies
         let!(:user) { create :user, organization: assembly.organization }
 
         it "sets the user" do
-          subject.call do
-            on(:ok) do |assembly_member|
-              expect(assembly_member.user).to eq user
-            end
-          end
+          expect do
+            subject.call
+          end.to change { assembly_member.reload && assembly_member.user }.from(assembly_member.user).to(user)
         end
       end
     end

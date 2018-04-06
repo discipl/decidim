@@ -56,9 +56,8 @@ module Decidim
               :designation_mode,
               :position,
               :position_other,
-              :weight
-            ).merge(
-              user: form.user
+              :weight,
+              :user
             ),
             log_info
           )

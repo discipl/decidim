@@ -34,7 +34,7 @@ module Decidim
 
         private
 
-        attr_reader :form, :assembly, :current_user, :user
+        attr_reader :form, :assembly, :current_user
 
         def create_assembly_member!
           log_info = {
@@ -59,10 +59,10 @@ module Decidim
               :designation_mode,
               :position,
               :position_other,
-              :weight
+              :weight,
+              :user
             ).merge(
-              assembly: assembly,
-              user: user
+              assembly: assembly
             ),
             log_info
           )

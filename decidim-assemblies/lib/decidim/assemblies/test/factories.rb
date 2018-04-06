@@ -89,6 +89,10 @@ FactoryBot.define do
     designation_date { Faker::Date.between(1.year.ago, 1.month.ago) }
     designation_mode Faker::Lorem.word
 
+    trait :with_user do
+      user { create(:user, organization: assembly.organization) }
+    end
+
     trait :ceased do
       ceased_date { Faker::Date.between(1.day.ago, 5.days.ago) }
     end

@@ -40,6 +40,8 @@ module Decidim::Assemblies
     end
 
     context "when everything is ok" do
+      let(:assembly_member) { Decidim::AssemblyMember.last }
+
       it "creates an assembly" do
         expect { subject.call }.to change { Decidim::AssemblyMember.count }.by(1)
       end
@@ -49,11 +51,8 @@ module Decidim::Assemblies
       end
 
       it "sets the assembly" do
-        subject.call do
-          on(:ok) do |assembly_member|
-            expect(assembly_member.assembly).to eq assembly
-          end
-        end
+        subject.call
+        expect(assembly_member.assembly).to eq assembly
       end
 
       it "traces the action", versioning: true do
@@ -67,15 +66,12 @@ module Decidim::Assemblies
         expect(action_log.version).to be_present
       end
 
-      context "when is an existing user in the platform" do
-        let!(:user) { create :user, organization: assembly.organization }
+      context "with an existing user in the platform" do
+        let!(:user) { create(:user, organization: assembly.organization) }
 
         it "sets the user" do
-          subject.call do
-            on(:ok) do |assembly_member|
-              expect(assembly_member.user).to eq user
-            end
-          end
+          subject.call
+          expect(assembly_member.user).to eq user
         end
       end
     end
