@@ -40,6 +40,8 @@ module Decidim
             meeting.registration_terms = form.registration_terms
           end
 
+          meeting.registration_questions = form.questions_to_persist.map { |question| { "title" => question.title } }
+
           meeting.save!
         end
 

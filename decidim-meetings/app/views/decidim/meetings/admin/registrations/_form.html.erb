@@ -36,4 +36,30 @@
   </div>
 </div>
 
+<div class="card">
+  <div class="card-divider">
+    <h2 class="card-title"><%= t(".questions") %></h2>
+  </div>
+
+  <div class="card-section">
+    <div class="meeting-registration-questions">
+      <template>
+        <%= fields_for "meeting[questions][#{blank_question.to_param}]", blank_question do |question_form| %>
+          <%= render "question", form: question_form, id: tabs_id_for_registration_question(blank_question) %>
+        <% end %>
+      </template>
+
+      <div class="meeting-registration-questions-list">
+        <% form.object.questions.each do |question| %>
+          <%= fields_for "meeting[questions][]", question do |question_form| %>
+            <%= render "question", form: question_form, id: tabs_id_for_registration_question(question) %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <button class="button add-registration-question"><%= t(".add_question") %></button>
+    </div>
+  </div>
+</div>
+
 <%= javascript_include_tag "decidim/meetings/admin/registrations_form" %>

@@ -7,6 +7,10 @@ module Decidim
       #
       module ApplicationHelper
         include Decidim::MapHelper
+
+        def tabs_id_for_registration_question(question)
+          "meeting_registration_question_#{question.to_param}"
+        end
       end
     end
   end

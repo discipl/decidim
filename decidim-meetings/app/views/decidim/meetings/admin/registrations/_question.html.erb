@@ -1,0 +1,36 @@
+<% registration = form.object %>
+
+<div class="card meeting-registration-question" id="<%= id %>-field">
+  <div class="card-divider registration-question-divider">
+    <h2 class="card-title">
+      <span><%= t(".question") %></span>
+
+      <button class="button small alert hollow move-up-registration-question button--title">
+        <%== "#{icon("arrow-top")} #{t(".up")}" %>
+      </button>
+
+      <button class="button small alert hollow move-down-registration-question button--title">
+        <%== "#{icon("arrow-bottom")} #{t(".down")}" %>
+      </button>
+
+      <button class="button small alert hollow remove-registration-question button--title">
+        <%= t(".remove") %>
+      </button>
+    </h2>
+  </div>
+
+  <div class="card-section">
+    <div class="row column">
+      <%=
+        form.translated(
+          :text_field,
+          :title,
+          tabs_id: id,
+          label: t(".title")
+        )
+      %>
+    </div>
+  </div>
+
+  <%= form.hidden_field :deleted, value: false %>
+</div>

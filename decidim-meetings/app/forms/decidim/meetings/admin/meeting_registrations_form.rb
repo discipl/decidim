@@ -12,6 +12,7 @@ module Decidim
         attribute :registrations_enabled, Boolean
         attribute :available_slots, Integer
         attribute :reserved_slots, Integer
+        attribute :questions, Array[MeetingRegistrationQuestionForm]
         translatable_attribute :registration_terms, String
 
         validates :registration_terms, translatable_presence: true, if: ->(form) { form.registrations_enabled? }
@@ -33,6 +34,20 @@ module Decidim
         def id
           return super if super.present?
           meeting.id
+        end
+
+        def map_model(model)
+          self.questions = model.registration_questions.map do |question|
+            MeetingRegistrationQuestionForm.new(question)
+          end
+        end
+
+        def questions_to_persist
+          questions.reject(&:deleted)
+        end
+
+        def number_of_questions
+          questions.size
         end
 
         private

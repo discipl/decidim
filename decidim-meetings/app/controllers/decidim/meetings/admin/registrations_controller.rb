@@ -5,6 +5,8 @@ module Decidim
     module Admin
       # This controller allows an admin to manage meeting registrations from a Participatory Process
       class RegistrationsController < Admin::ApplicationController
+        helper_method :blank_question
+
         def edit
           @form = MeetingRegistrationsForm.from_model(meeting)
         end
@@ -37,6 +39,10 @@ module Decidim
 
         def meeting
           @meeting ||= Meeting.where(component: current_component).find(params[:meeting_id])
+        end
+
+        def blank_question
+          @blank_question ||= Admin::MeetingRegistrationQuestionForm.new
         end
       end
     end
