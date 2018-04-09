@@ -27,8 +27,7 @@ module Decidim::Assemblies
           designation_date: Time.current,
           designation_mode: "designation mode",
           position: Decidim::AssemblyMember::POSITIONS.sample,
-          position_other: "",
-          user: user
+          position_other: ""
         }
       )
     end

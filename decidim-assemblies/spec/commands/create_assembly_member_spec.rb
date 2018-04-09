@@ -14,6 +14,7 @@ module Decidim::Assemblies
         Admin::AssemblyMemberForm,
         invalid?: invalid,
         full_name: "Full name",
+        user: user,
         attributes: {
           weight: 0,
           full_name: "Full name",
@@ -24,8 +25,7 @@ module Decidim::Assemblies
           designation_date: Time.current,
           designation_mode: "designation mode",
           position: Decidim::AssemblyMember::POSITIONS.sample,
-          position_other: "other",
-          user: user
+          position_other: "other"
         }
       )
     end

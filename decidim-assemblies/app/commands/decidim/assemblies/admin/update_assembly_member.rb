@@ -58,6 +58,8 @@ module Decidim
               :position_other,
               :weight,
               :user
+            ).merge(
+              user: form.user
             ),
             log_info
           )

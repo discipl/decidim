@@ -59,10 +59,10 @@ module Decidim
               :designation_mode,
               :position,
               :position_other,
-              :weight,
-              :user
+              :weight
             ).merge(
-              assembly: assembly
+              assembly: assembly,
+              user: form.user
             ),
             log_info
           )
