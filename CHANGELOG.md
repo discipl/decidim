@@ -43,6 +43,7 @@ controller or added a new module you need to rename `feature` to `component`.
 - **decidim-surveys**: Client side survey errors are now displayed [\#3133](https://github.com/decidim/decidim/pull/3133)
 - **decidim-surveys**: Allow multiple choice questions to have "free text options" where the user can customize the selected answer [\#3134](https://github.com/decidim/decidim/pull/3134)
 - **decidim-surveys**: New question type to sort different options [\#3148](https://github.com/decidim/decidim/pull/3148)
+- **decidim-generators**: New gem where all of decidim generators live, both to generate final application and decidim components (plugins).
 
 **Changed**:
 
@@ -73,5 +74,9 @@ controller or added a new module you need to rename `feature` to `component`.
 - **decidim-surveys**: Question type selector not disabled when survey has already been answered [\#3133](https://github.com/decidim/decidim/pull/3133)
 - **decidim-surveys**: Max choices selector not disabled when survey has already been answered [\#3133](https://github.com/decidim/decidim/pull/3133)
 - **decidim-surveys**: Translated fields not disabled when survey has already been answered [\#3133](https://github.com/decidim/decidim/pull/3133)
+
+**Removed**:
+
+- **decidim**: Decidim executable has been moved to the `decidim-generators` gem.
 
 Please check [0.10-stable](https://github.com/decidim/decidim/blob/0.10-stable/CHANGELOG.md) for previous changes.

@@ -60,14 +60,6 @@ jobs:
       - attach_workspace:
           at: /app
       - checkout
-      - run:
-          name: Install a rubygems revision that gets tests passing
-          command: |
-            git clone https://github.com/rubygems/rubygems /rubygems
-            cd /rubygems
-            git checkout e093fb7d594f97edaa6289547a90537871ca5f98
-            git submodule update --init
-            ruby setup.rb
       - restore_cache:
           keys:
             - bundler-dependencies-{{ checksum "Gemfile.lock" }}
@@ -90,6 +82,30 @@ jobs:
       - run:
           name: Run erb_lint
           command: bundle exec erblint --lint-all
+      - store_test_results:
+          path: ~/rspec
+  generators:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /app
+      - checkout
+      - restore_cache:
+          keys:
+            - bundler-dependencies-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Install ruby dependencies
+          command: bundle install
+      - save_cache:
+          key: bundler-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - /usr/local/bundle/
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 2m
+      - run:
+          name: Run generators RSpec
+          command: mkdir ~/rspec && bundle exec rspec --format progress --format RspecJunitFormatter -o ~/rspec/rspec.xml
       - store_test_results:
           path: ~/rspec
   core:
@@ -634,6 +650,12 @@ workflows:
               ignore:  
                 - l10n_master
                 - l10n_0.10-stable
+      - generators:
+          filters:
+            branches:
+              ignore:
+                - l10n_master
+                - l10n_0.10-stable
       - core:
           requires:
             - build_test_app
@@ -688,6 +710,7 @@ workflows:
       - upload-coverage:
           requires:
             - main
+            - generators
             - core
             - assemblies
             - api

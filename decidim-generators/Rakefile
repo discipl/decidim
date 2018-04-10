@@ -1,0 +1,32 @@
+# frozen_string_literal: true
+
+require "bundler/gem_tasks"
+require "rspec/core/rake_task"
+require_relative "../lib/decidim/gem_manager"
+
+RSpec::Core::RakeTask.new(:spec)
+
+task default: :spec
+
+desc "Installs gem and dependencies locally."
+task :install_all do
+  command = "gem build %name && gem install --force %name-%version.gem"
+
+  decidim_core_path = File.expand_path(File.join("..", "decidim-core"), __dir__)
+
+  Decidim::GemManager.new(decidim_core_path).run(command)
+  Decidim::GemManager.new(__dir__).run(command)
+end
+
+desc "Uninstalls gem and dependencies locally."
+task :uninstall_all do
+  decidim_core_path = File.expand_path(File.join("..", "decidim-core"), __dir__)
+
+  Decidim::GemManager.new(decidim_core_path).run(
+    "gem uninstall %name -v %version --executables --force && rm decidim-core*.gem"
+  )
+
+  Decidim::GemManager.new(__dir__).run(
+    "gem uninstall %name -v %version --executables --force && rm decidim-generators*.gem"
+  )
+end
