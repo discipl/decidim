@@ -5,5 +5,8 @@ module Decidim
     include ActionView::Helpers::TranslationHelper
     include ::Cell::Translation
     include Decidim::ResourceHelper
+    include Decidim::ScopesHelper
+    include Devise::Controllers::Helpers
+    include Decidim::ActionAuthorizationHelper
   end
 end
