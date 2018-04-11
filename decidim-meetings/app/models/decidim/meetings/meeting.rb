@@ -14,6 +14,7 @@ module Decidim
       include Decidim::HasCategory
       include Decidim::Followable
       include Decidim::Comments::Commentable
+      include Decidim::Searchable
       include Decidim::Traceable
       include Decidim::Loggable
 
@@ -27,6 +28,13 @@ module Decidim
 
       scope :past, -> { where(arel_table[:end_time].lteq(Time.current)) }
       scope :upcoming, -> { where(arel_table[:start_time].gt(Time.current)) }
+
+      searchable_fields(
+        scope_id: :decidim_scope_id,
+        participatory_space: { component: :participatory_space },
+        A: :title,
+        D: [:description, :address]
+      )
 
       def self.log_presenter_class_for(_log)
         Decidim::Meetings::AdminLog::MeetingPresenter
@@ -72,6 +80,12 @@ module Decidim
       # Public: Override Commentable concern method `users_to_notify_on_comment_created`
       def users_to_notify_on_comment_created
         followers
+      end
+
+      def can_participate?(user)
+        return true unless participatory_space.try(:private_space?)
+        return true if participatory_space.try(:private_space?) && participatory_space.users.include?(user)
+        return false if participatory_space.try(:private_space?) && participatory_space.try(:is_transparent?)
       end
     end
   end

@@ -367,6 +367,13 @@ en:
         title: Select %{field}
       prompt: Select a scope
       scopes: Scopes
+    search:
+      filter:
+        all: All
+        components: Components
+        filter: Filter
+      results_found_for_term: '%{count} Results for the search: "%{term}"'
+      term_input_placeholder: Search
     shared:
       action_authorization_modal:
         expired:
