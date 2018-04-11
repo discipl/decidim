@@ -141,7 +141,7 @@ module Decidim
         root = if options[:path]
                  expanded_path
                else
-                 decidim_root
+                 root_path
                end
 
         File.join(root, "Gemfile")
@@ -151,7 +151,7 @@ module Decidim
         File.expand_path(options[:path])
       end
 
-      def decidim_root
+      def root_path
         File.expand_path(File.join("..", "..", ".."), __dir__)
       end
     end
